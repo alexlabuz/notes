@@ -11,15 +11,15 @@
                 <label for="content">Note</label>
                 <textarea class="input" type="text" name="content" id="content" v-model="content" required></textarea>
             </div>
-            <div class="field color_select">
-                <p></p>
-                <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.red}" id="note_red" @click="changeColor(MemoColor.red)"></div>
-                <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.blue}" id="note_blue" @click="changeColor(MemoColor.blue)"></div>
-                <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.green}" id="note_green" @click="changeColor(MemoColor.green)"></div>
-                <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.orange}" id="note_orange" @click="changeColor(MemoColor.orange)"></div>
-                <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.purple}" id="note_purple" @click="changeColor(MemoColor.purple)"></div>
-            </div>
             <div class="footer">
+                <div class=" color_select">
+                    <p></p>
+                    <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.red}" id="note_red" @click="changeColor(MemoColor.red)"></div>
+                    <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.blue}" id="note_blue" @click="changeColor(MemoColor.blue)"></div>
+                    <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.green}" id="note_green" @click="changeColor(MemoColor.green)"></div>
+                    <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.orange}" id="note_orange" @click="changeColor(MemoColor.orange)"></div>
+                    <div :class="{ color_badge: true, color_badge_selected: color == MemoColor.purple}" id="note_purple" @click="changeColor(MemoColor.purple)"></div>
+                </div>
                 <input type="submit" :value="paramId ? 'Modifier' : 'Ajouter'" class="btn"/>
             </div>
         </form>
@@ -72,17 +72,17 @@ form{
 
 .footer{
     display: flex;
-    justify-content: end;
     padding: 12px;
 }
 
 .color_select{
-    margin-top: 6px;
     display: flex;
     flex-direction: row;
     gap: 7px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .color_badge{
@@ -96,7 +96,6 @@ form{
     border: 4px solid black;
 }
 
-
 @media (width < 480px) {
     .color_badge{
         width: 30px;
@@ -105,6 +104,13 @@ form{
     
     .color_badge_selected{
         border: 3px solid black;
+    }
+}
+
+@media (width < 325px) {
+    .footer{
+        flex-wrap: wrap;
+        justify-content: end;
     }
 }
 
