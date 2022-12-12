@@ -5,14 +5,13 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import EditPage from './pages/EditPage.vue'
-import iChat from './pages/iChat.vue'
 import '../public/style.css'
+import { useMemoStore } from './stores/memoStore'
 
 const routes = [
     {path: '/', component: HomePage, name: 'Home'},
     {path: '/edit', component: EditPage, name: 'Add'},
     {path: '/edit/:id', component: EditPage, name: 'Edit'},
-    {path: '/ichat', component: iChat, name:'iChat'},
 ]
 
 const router = createRouter({
@@ -20,8 +19,13 @@ const router = createRouter({
     routes
 })
 
+
 const app = createApp(App)
 
 app.use(createPinia())
+
+const memoStore = useMemoStore()
+memoStore.init();
+
 app.use(router)
 app.mount('#app')

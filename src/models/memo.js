@@ -1,12 +1,11 @@
 export class Memo{
-    id
+    idNote
     title
     content
     color
     state
 
-    constructor(id, title, content, color, state){
-        this.id = id
+    constructor(title, content, color, state){
         this.title = title
         this.content = content
         this.color = color

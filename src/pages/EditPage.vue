@@ -2,7 +2,7 @@
     <div class="page">
         <h1>Ajouter une note</h1>
 
-        <form @submit.prevent="addNote">
+        <form @submit.prevent="validNote">
             <div class="field">
                 <label for="title">Titre</label>
                 <input class="input" type="text" name="title" id="title" v-model="title" required />
@@ -125,7 +125,7 @@ form{
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMemoStore } from '../stores/memoStore';
-import {MemoColor} from '../models/memo'
+import { MemoColor } from '../models/memo'
 
 const router = useRouter()
 const route = useRoute()
@@ -136,20 +136,27 @@ const paramId = route.params.id
 const title = ref()
 const content = ref()
 const color = ref(MemoColor.red)
+let memo;
 
-if(paramId){
-    const note = memoStore.getById(paramId)
-    title.value = note.title
-    content.value = note.content
-    color.value = note.color
+if(paramId) getNoteData()
+
+async function getNoteData() {
+    const memoData = await memoStore.getById(paramId)
+    
+    if(memoData !== undefined){
+        title.value = memoData.title
+        content.value = memoData.content
+        color.value = memoData.color
+        memo = memoData;
+    }
 }
 
-function addNote() {
+function validNote() {
     if(!paramId){
-        memoStore.addMemo(title, content, color)
+        memoStore.addMemo(title.value, content.value, color.value)
         router.push("/")
     }else{
-        memoStore.updateMemo(title, content, color, paramId)
+        memoStore.updateMemo(title.value, content.value, color.value, memo)
         router.push("/")
     }
 }

@@ -1,32 +1,40 @@
-import {defineStore} from 'pinia'
-import { Memo, MemoColor, MemoState } from '../models/memo'
+import { defineStore } from 'pinia'
+import { addMemo, getAll, deleteMemo, get, updateMemo } from '../db'
 
 export const useMemoStore = defineStore('memo', {
-    state: () => ({
-        listMemo: [
-            new Memo(0, "Hello", "Ceci est une note de bienvenue", MemoColor.red, MemoState.inProgress),
-            new Memo(1, "Ajouter le votre", "Appuyez sur le bouton + pour ajoute votre note", MemoColor.blue, MemoState.inProgress),
-        ],
+    state: () =>  ({
+        /*listMemo: [
+            //new Memo(0, "Hello", "Ceci est une note de bienvenue", MemoColor.red, MemoState.inProgress),
+            //new Memo(1, "Ajouter le votre", "Appuyez sur le bouton + pour ajoute votre note", MemoColor.blue, MemoState.inProgress),
+        ],*/
+        listMemo: [],
+        db: null
     }),
     actions: {
+        async init(){
+            this.listMemo = await getAll()
+        },
+        loadListMemo(data){
+            this.listMemo = []
+            this.listMemo = data
+        },
         addMemo(title, content, color){
-            console.log(title, content, color)
-            const id = this.listMemo.length
-            const memo = new Memo(id, title, content, color, MemoState.inProgress)
-            this.listMemo.push(memo)
+            addMemo(title, content, color)
+            this.init()
         },
         deleteMemo(memo){
-            const i = this.listMemo.indexOf(memo)
-            this.listMemo.splice(i, 1)
+            deleteMemo(memo)
+            this.init()
         },
-        updateMemo(title, content, color, id){
-            var n = this.listMemo.find(n => n.id == id)
-            n.title = title
-            n.content = content
-            n.color = color
+        updateMemo(title, content, color, memo){
+            memo.title = title
+            memo.content = content
+            memo.color = color
+            updateMemo(memo)
+            this.init()
         },
-        getById(noteId) {
-            return this.listMemo.find(n => n.id == noteId)
+        async getById(id) {
+            return await get(id)
         },
     },
     getters:{
