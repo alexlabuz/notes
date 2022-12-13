@@ -3,10 +3,6 @@ import { addMemo, getAll, deleteMemo, get, updateMemo } from '../db'
 
 export const useMemoStore = defineStore('memo', {
     state: () =>  ({
-        /*listMemo: [
-            //new Memo(0, "Hello", "Ceci est une note de bienvenue", MemoColor.red, MemoState.inProgress),
-            //new Memo(1, "Ajouter le votre", "Appuyez sur le bouton + pour ajoute votre note", MemoColor.blue, MemoState.inProgress),
-        ],*/
         listMemo: [],
         db: null
     }),
