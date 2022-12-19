@@ -39,7 +39,6 @@ function openNote(e) {
 </script>
   
 <style scoped>
-
 .page{
     display: flex;
     flex-direction: column;
