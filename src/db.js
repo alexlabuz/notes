@@ -53,7 +53,7 @@ export async function get(id) {
 export async function updateMemo(memo) {
     const db = await openDB("memo_db", 1)
     const store = db.transaction("notes", "readwrite").objectStore("notes")
-    var e = await store.put(memo)
+    return await store.put(memo)
 }
 
 export async function deleteMemo(memo) {

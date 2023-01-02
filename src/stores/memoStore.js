@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { addMemo, getAll, deleteMemo, get, updateMemo } from '../db'
+import { Memo, MemoState } from '../models/memo'
 
 export const useMemoStore = defineStore('memo', {
     state: () =>  ({
@@ -28,6 +29,11 @@ export const useMemoStore = defineStore('memo', {
             memo.color = color
             updateMemo(memo)
             this.init()
+        },
+        changeStateMemo(memo){
+            if(memo.progress == MemoState.finished) memo.progress = MemoState.inProgress
+            else memo.progress = MemoState.finished
+            updateMemo(memo)
         },
         async getById(id) {
             return await get(id)

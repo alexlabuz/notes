@@ -19,7 +19,6 @@ const router = createRouter({
     routes
 })
 
-
 const app = createApp(App)
 
 app.use(createPinia())

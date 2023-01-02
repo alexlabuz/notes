@@ -1,6 +1,7 @@
 <template>
     <div class="page">
-        <h1>Ajouter une note</h1>
+        <h1 v-show="!paramId">Ajouter une note</h1>
+        <h1 v-show="paramId">{{memo ? memo.title : ""}}</h1>
 
         <form @submit.prevent="validNote">
             <div class="field">
@@ -136,29 +137,27 @@ const paramId = route.params.id
 const title = ref()
 const content = ref()
 const color = ref(MemoColor.red)
-let memo;
+const memo = ref();
 
 if(paramId) getNoteData()
 
 async function getNoteData() {
     const memoData = await memoStore.getById(paramId)
-    
     if(memoData !== undefined){
         title.value = memoData.title
         content.value = memoData.content
         color.value = memoData.color
-        memo = memoData;
+        memo.value = memoData;
     }
 }
 
 function validNote() {
     if(!paramId){
         memoStore.addMemo(title.value, content.value, color.value)
-        router.push("/")
     }else{
-        memoStore.updateMemo(title.value, content.value, color.value, memo)
-        router.push("/")
+        memoStore.updateMemo(title.value, content.value, color.value, JSON.parse(JSON.stringify(memo.value)))
     }
+    router.push("/")
 }
 
 function changeColor(c) {

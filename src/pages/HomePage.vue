@@ -3,10 +3,9 @@
     <div class="page">
         <div class="header">
             <h1>Notes</h1>
-            <!--<router-link to="/ichat">iChat</router-link>-->
         </div>
         <div class="list_notes">
-            <MemoCard v-for="memo in memoStore.listMemo" :note-data="memo" @onDeleteClick="deleteNote" @onAccessClick="openNote" />
+            <MemoCard v-for="memo in memoStore.listMemo" :note-data="memo" @onDeleteClick="deleteNote" @onAccessClick="openNote" @onStateChange="stateChange" />
             <p id="empty" v-if="memoStore.isEmpty">Aucune note ...</p>
         </div>
     </div>
@@ -18,14 +17,15 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import MemoCard from '../components/MemoCard.vue'
 import { useDialogStore } from '../stores/dialogStore';
+import { Memo } from '../models/memo';
 
 const memoStore = useMemoStore()
 const dialogStore = useDialogStore()
 const router = useRouter()
 
-const openAddChat = computed(() => {
+function openAddChat(){
     router.push({name: 'Add'})
-})
+}
 
 function deleteNote(e) {
     dialogStore.openDialog("Confirmation", "Voulez vous supprimer cette note ?", () => {
@@ -35,6 +35,10 @@ function deleteNote(e) {
 
 function openNote(e) {
     router.push({ name: 'Edit', params: { id: e.id }})
+}
+
+function stateChange(note) {
+    memoStore.changeStateMemo(JSON.parse(JSON.stringify(note)))
 }
 </script>
   
